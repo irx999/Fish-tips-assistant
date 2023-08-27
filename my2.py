@@ -34,7 +34,7 @@ def offDutyTime(hour,minute): #下班时间差
     return time.strftime('%H:%M:%S',time.gmtime(timeDifference.total_seconds()))
 
 def hftq(): #和风天气
-    key='0f299b61f534452596e105e745937b12'   #我自己的和风天气key，你最好自己注册一个，免费的
+    key='##################'   #我自己的和风天气key，你最好自己注册一个，免费的
     location='CN101040100'            #城市代码
     url="https://devapi.qweather.com/v7/weather/3d?"
     params = {'location': location,'key': key,'lang': 'zh'}
@@ -47,7 +47,7 @@ def hftq(): #和风天气
     readweather=readweather1+readweather2
     return readweather
 
-def API(types):  
+def API(types):   #api很多都来自https://api.aa1.cn/ 这个网站
     if types == "名人名言":
         res = requests.get("https://v.api.aa1.cn/api/api-wenan-mingrenmingyan/index.php?aa1=json",verify=False)
         return f'{res.json()[0]["mingrenmingyan"]}'
@@ -75,13 +75,9 @@ sayHello = lambda x : "早上好" if x < 12 else("下午好" if 12 < x < 18 else
 
 X  = f"现在是{today2}，\n {ZhDate.from_datetime(today).chinese()},\n{sayHello(today.hour)} 打工人！工作再累，一定不要忘记照顾自己哦！有事没事喝杯茶，舒展一下身体，去廊道走走别老在工位上坐着，钱是老板的,但命是自己的\n距离下班还有{offDutyTime(18,30)}的时间了\n距离下次充值大概还有{int(gz(15).days)}天\n距离元旦节还有{int(y.days) -1}天\n距离春节还有{int(a.days) -1}天\n距离清明节还有{int(b.days) -1}天\n距离劳动节还有{int(d.days)}天\n距离端午节还有{int(e.days) }天\n距离中秋节还有{int(f.days) }天\n距离国庆节还有{int(g.days) -1}天\n距离年假还有{int(a.days) -1}天\n距离除夕还有{int(b.days) -1}天\n上班是帮老板赚钱，但是身体是革命的本钱！\n最后，祝愿天下所有打工人，都能愉快的渡过每一天\n{hftq()}\n今日励志：\n{API(types='名人名言')}\n今日安慰：\n{API(types='安慰')}\n 今日网易云：\n{API('网易云热评')}\n 今日爱情：\n{API('爱情文案')}\n 今日emo:\n{API('emo')}"
 
-def ding():
-    
+def ding():  #这里发送到钉钉 群聊消息
     headers={'Content-Type': 'application/json'}
-    robot_url = "https://oapi.dingtalk.com/robot/send?access_token=bd2b7e50244c1c06fc3a9da213f8393c352277d441de63f9773d26c561d639a9"
-    robot_url2  = "https://oapi.dingtalk.com/robot/send?access_token=d9c7810dc5f55e00bf28317cb915bff5b5722200efd410d542a475e105c8a43b"
-    robot_url3 = "https://oapi.dingtalk.com/robot/send?access_token=d5c9af7cdac479e3807f494905640ab5c3d65fe4df4b926c695a368ee4bb5619"
-    robot_url4 = "https://oapi.dingtalk.com/robot/send?access_token=49773ae302de1299d763c7b7b33e3b032c4462702a63bf587a5e66be3f8f71dd"
+    
     data1 ={"at": {"atMobiles":[""],"atUserIds":["user123"],"isAtAll": False},"text": {
             "content":f"{X}"},"msgtype":"text"}
     robot= requests.post(url = robot_url,data=json.dumps(data1),headers=headers,verify=False)
